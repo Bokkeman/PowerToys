@@ -235,6 +235,8 @@ namespace HostsUILib.Helpers
         {
             Directory.GetFiles(Path.GetDirectoryName(HostsFilePath), $"*{_backupSuffix}*")
                 .Select(f => new FileInfo(f))
+                .OrderByDescending(f => f.CreationTime)
+                .Skip(1)
                 .Where(f => f.CreationTime < DateTime.Now.AddDays(-15))
                 .ToList()
                 .ForEach(f => f.Delete());
